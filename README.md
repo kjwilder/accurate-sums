@@ -1,8 +1,8 @@
-## Accurately sum a sequence (array) of numbers.
+## C++ Functions that accurately sum a sequence (vector) of numbers.
 
 ### Overview
 [sum.h](sum.h) provides templated functions to accurately compute the sum of a
-vector of numbers by avoiding Round-off and cancellation errors
+vector of numbers by avoiding round-off and cancellation errors
 
 ### Details
 - The `condensed_summation` function implements the algorithm described by
