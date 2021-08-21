@@ -1,4 +1,4 @@
-## C++ Functions that accurately sum a sequence (vector) of numbers.
+## C++ functions that accurately sum a sequence (vector) of numbers.
 
 ### Overview
 [sum.h](sum.h) provides templated functions to accurately compute the sum of a
