@@ -11,7 +11,11 @@ vector of numbers by avoiding round-off and cancellation errors
 - The `modified_deflation` function aimplements the algorithm described by I.
   J. Anderson. It is slower than `condensed_summation` but handles
   cancellation.  It is difficult to do better than this algorithm without
-  increasing the precision. I modified The part of the algorithm that handles
+  increasing the precision. I modified the part of the algorithm that handles
   potentially infinite loops as the algorithm in the paper did not always work in
   my tests.  I believe my correction may not handle some edge cases but have not
   found any (nor tried hard to find them).
+- The three test files provide the results of applying the above two algorithms
+  and ordinary addition to various sequence of numbers. The differences in the
+  results demonstrate how the various strategies handle round-off and cancellation
+  errors.
