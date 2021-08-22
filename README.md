@@ -8,7 +8,7 @@ vector of numbers by avoiding round-off and cancellation errors
 - The `condensed_summation` function implements the algorithm described by
   William Kahan. It avoids common round-off errors but can fail when there is
   cancellation.
-- The `modified_deflation` function aimplements the algorithm described by I.
+- The `modified_deflation` function implements the algorithm described by I.
   J. Anderson. It is slower than `condensed_summation` but handles
   cancellation.  It is difficult to do better than this algorithm without
   increasing the precision. I modified the part of the algorithm that handles
