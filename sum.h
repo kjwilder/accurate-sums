@@ -1,5 +1,5 @@
-#ifndef SUM_H
-#define SUM_H
+#ifndef SUM_H_
+#define SUM_H_
 
 #include <cmath>
 #include <vector>
@@ -13,19 +13,17 @@ using std::vector;
 // slower modified_deflation algorithm below does better in those cases.
 
 template <class T>
-T condensed_summation(const vector<T>& v)
-{
+T condensed_summation(const vector<T>& v) {
   T a, b, sum = 0.0, error = 0.0;
-  for (typename vector<T>::const_iterator i = v.begin(); i != v.end(); ++i)
-  {
+  // for (typename vector<T>::const_iterator i = v.begin(); i != v.end(); ++i) {
+  for (const auto i : v) {
     a = sum;
-    b = *i + error;
+    b = i + error;
     sum = a + b;
     error = (a - sum) + b;
   }
   return sum;
-
-} // condensed_summation
+}
 
 //========================================================================
 // The modified deflation algorithm of Anderson.  It is reasonably fast,
@@ -37,8 +35,7 @@ T condensed_summation(const vector<T>& v)
 // also believe that my code still has an error.
 
 template <class T>
-T modified_deflation(const vector<T>& v)
-{
+T modified_deflation(const vector<T>& v) {
   if (v.size() < 3)
     return condensed_summation(v);
 
@@ -49,11 +46,12 @@ T modified_deflation(const vector<T>& v)
   e.reserve(v.size());
 
   // Initialize vectors of negative and positive elements of v
-  for (typename vector<T>::const_iterator i = v.begin(); i != v.end(); ++i)
+  for (typename vector<T>::const_iterator i = v.begin(); i != v.end(); ++i) {
     if (*i < 0.0)
       vn.push_back(*i);
     else if (*i > 0.0)
       vp.push_back(*i);
+  }
 
   T a, b, sum, error, sp, sn;
   bool well_conditioned = false;
@@ -87,11 +85,12 @@ T modified_deflation(const vector<T>& v)
     }
 
     // Put the error terms back in the vp and vn arrays.
-    for (typename vector<T>::iterator i = e.begin(); i != e.end(); ++i)
+    for (typename vector<T>::iterator i = e.begin(); i != e.end(); ++i) {
       if (*i < 0.0)
         vn.push_back(*i);
       else if (*i > 0.0)
         vp.push_back(*i);
+    }
     e.clear();
 
     // Check that the sums in vp and vn are well-condtioned.
@@ -105,8 +104,6 @@ T modified_deflation(const vector<T>& v)
   vnew.insert(vnew.end(), vp.begin(), vp.end());
   vnew.insert(vnew.end(), vn.begin(), vn.end());
   return condensed_summation(vnew);
+}
 
-} // modified_deflation
-
-#endif
-
+#endif  // SUM_H_
