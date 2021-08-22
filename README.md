@@ -16,6 +16,6 @@ vector of numbers by avoiding round-off and cancellation errors
   my tests.  I believe my correction may not handle some edge cases but have not
   found any (nor tried hard to find them).
 - The three test files provide the results of applying the above two algorithms
-  and ordinary addition to various sequence of numbers. The differences in the
+  and ordinary addition to various sequences of numbers. The differences in the
   results demonstrate how the various strategies handle round-off and cancellation
   errors.
