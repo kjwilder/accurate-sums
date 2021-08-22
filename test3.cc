@@ -4,12 +4,12 @@
 #include <vector>
 #include <numeric>
 #include <algorithm>
-#include "sum.h"
+#include "./sum.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
   int size = 20;
   if (argc > 1)
     size = atoi(argv[1]);

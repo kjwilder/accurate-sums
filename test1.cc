@@ -4,7 +4,7 @@
 #include <vector>
 #include <numeric>
 #include <algorithm>
-#include "sum.h"
+#include "./sum.h"
 
 using std::vector;
 using std::cout;
@@ -16,16 +16,15 @@ using std::abs;
 // The results are messed up when compiled with
 // gcc and optimization.
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
   int size = 1000000;
   if (argc > 1)
     size = atoi(argv[1]);
 
-  int seed = 0;
+  unsigned int seed = 0;
   if (argc > 2)
     seed = atoi(argv[2]);
-  srand(seed);
+  // srand(seed);
 
   double res;
   float resf;
@@ -33,7 +32,7 @@ int main(int argc, char** argv)
   vector<float> f(size);
 
   for (uint i = 0; i < d.size(); ++i)
-    d[i] = 100 * ((1.0 * rand()) / RAND_MAX - .5);
+    d[i] = 100 * ((1.0 * rand_r(&seed)) / RAND_MAX - .5);
 
   cout.precision(8);
 
@@ -63,17 +62,17 @@ int main(int argc, char** argv)
   cout << "\nSingle Precision Computations, with errors:\n";
 
   resf = accumulate(f.begin(), f.end(), 0.0f);
-  cout << "The recursive summation is " << resf 
-	  << "  (" << resf - res << ")\n";
+  cout << "The recursive summation is " << resf
+          << "  (" << resf - res << ")\n";
 
 
   resf = condensed_summation(f);
   cout << "The condensed summation is " << resf
-	  << "  (" << resf - res << ")\n";
+          << "  (" << resf - res << ")\n";
 
   resf = modified_deflation(f);
   cout << "The deflated sum is        " << resf
-	  << "  (" << resf - res << ")\n";
+          << "  (" << resf - res << ")\n";
 
   cout << endl;
 
