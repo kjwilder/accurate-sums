@@ -15,7 +15,6 @@ using std::vector;
 template <class T>
 T condensed_summation(const vector<T>& v) {
   T a, b, sum = 0.0, error = 0.0;
-  // for (typename vector<T>::const_iterator i = v.begin(); i != v.end(); ++i) {
   for (const auto i : v) {
     a = sum;
     b = i + error;
@@ -27,7 +26,7 @@ T condensed_summation(const vector<T>& v) {
 
 //========================================================================
 // The modified deflation algorithm of Anderson.  It is reasonably fast,
-// and should give the correct result as it is difficult if not impossible
+// and should give the correct result when possible. It is difficult
 // to do better without increasing the precision of the variables.  The
 // portion of the algorithm that handles potentially infinite loops has
 // been modified as the original version did not always work in my tests.
@@ -46,11 +45,11 @@ T modified_deflation(const vector<T>& v) {
   e.reserve(v.size());
 
   // Initialize vectors of negative and positive elements of v
-  for (typename vector<T>::const_iterator i = v.begin(); i != v.end(); ++i) {
-    if (*i < 0.0)
-      vn.push_back(*i);
-    else if (*i > 0.0)
-      vp.push_back(*i);
+  for (const auto i : v) {
+    if (i < 0.0)
+      vn.push_back(i);
+    else if (i > 0.0)
+      vp.push_back(i);
   }
 
   T a, b, sum, error, sp, sn;
@@ -62,18 +61,18 @@ T modified_deflation(const vector<T>& v) {
       b = vn.back(); vn.pop_back();
       sum = a + b;
       error = (a - sum) + b;
-      if (sum == a) { // |a| >> |b|
+      if (sum == a) {  // |a| >> |b|
         T tmp1 = a / 2.0;
-	T tmp2 = a - tmp1;
-	vp.push_back(tmp2);
-	vp.push_back(tmp1);
-	vn.push_back(b);
-      } else if (sum == b) { // |b| >> |a|
+        T tmp2 = a - tmp1;
+        vp.push_back(tmp2);
+        vp.push_back(tmp1);
+        vn.push_back(b);
+      } else if (sum == b) {  // |b| >> |a|
         T tmp1 = b / 2.0;
-	T tmp2 = b - tmp1;
-	vp.push_back(a);
-	vn.push_back(tmp2);
-	vn.push_back(tmp1);
+        T tmp2 = b - tmp1;
+        vp.push_back(a);
+        vn.push_back(tmp2);
+        vn.push_back(tmp1);
       } else {
         if (sum < 0.0)
           vn.push_back(sum);
@@ -85,11 +84,11 @@ T modified_deflation(const vector<T>& v) {
     }
 
     // Put the error terms back in the vp and vn arrays.
-    for (typename vector<T>::iterator i = e.begin(); i != e.end(); ++i) {
-      if (*i < 0.0)
-        vn.push_back(*i);
-      else if (*i > 0.0)
-        vp.push_back(*i);
+    for (const auto i : e) {
+      if (i < 0.0)
+        vn.push_back(i);
+      else if (i > 0.0)
+        vp.push_back(i);
     }
     e.clear();
 
