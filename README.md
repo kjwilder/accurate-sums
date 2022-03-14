@@ -20,3 +20,6 @@ for examples.
   and ordinary addition to various sequence of numbers. The differences in the
   results demonstrate how the various strategies handle round-off and cancellation
   errors.
+
+### Tests
+- `bazel test :all`
