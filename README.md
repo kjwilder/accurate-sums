@@ -2,7 +2,8 @@
 
 ### Overview
 [sum.h](sum.h) provides templated functions to accurately compute the sum of a
-vector of numbers by avoiding round-off and cancellation errors
+vector of numbers by avoiding round-off and cancellation errors. See the tests
+for examples.
 
 ### Details
 - The `condensed_summation` function implements the algorithm described by
