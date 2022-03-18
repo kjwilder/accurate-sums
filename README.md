@@ -16,10 +16,6 @@ for examples.
   potentially infinite loops as the algorithm in the paper did not always work in
   my tests.  I believe my correction may not handle some edge cases but have not
   found any (nor tried hard to find them).
-- The three test files provide the results of applying the above two algorithms
-  and ordinary addition to various sequences of numbers. The differences in the
-  results demonstrate how the various strategies handle round-off and cancellation
-  errors.
 
 ### Tests
 - `bazel test :all`
