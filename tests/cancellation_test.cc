@@ -9,8 +9,8 @@ vector<double> get_values() {
   const int size = 20;
   vector<double> d(size);
   fill(d.begin(), d.end() - 2, 1);
-  *(d.end()-2) = 1e30;
-  *(d.end()-1) = -1e30;
+  *(d.end() - 2) = 1e30;
+  *(d.end() - 1) = -1e30;
   return d;
 }
 
