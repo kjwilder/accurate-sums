@@ -3,7 +3,6 @@ test2
 test3
 Papers
 *.dSYM/
-CPPLINT.cfg
 .DS_Store
 bazel-*
 

@@ -25,7 +25,7 @@ T condensed_summation(const vector<T>& v) {
 }
 
 //========================================================================
-// The modified deflation algorithm of Anderson.  It is reasonably fast,
+// The modified deflation algorithm of Anderson.  It is reasonably fast
 // and should give the correct result when possible. It is difficult
 // to do better without increasing the precision of the variables.  The
 // portion of the algorithm that handles potentially infinite loops has
@@ -35,8 +35,9 @@ T condensed_summation(const vector<T>& v) {
 
 template <class T>
 T modified_deflation(const vector<T>& v) {
-  if (v.size() < 3)
+  if (v.size() < 3) {
     return condensed_summation(v);
+  }
 
   // Set up several vectors with reasonable capacities
   vector<T> vp, vn, e;
@@ -46,10 +47,11 @@ T modified_deflation(const vector<T>& v) {
 
   // Initialize vectors of negative and positive elements of v
   for (const auto i : v) {
-    if (i < 0.0)
+    if (i < 0.0) {
       vn.push_back(i);
-    else if (i > 0.0)
+    } else if (i > 0.0) {
       vp.push_back(i);
+    }
   }
 
   T a, b, sum, error, sp, sn;
@@ -74,21 +76,24 @@ T modified_deflation(const vector<T>& v) {
         vn.push_back(tmp2);
         vn.push_back(tmp1);
       } else {
-        if (sum < 0.0)
+        if (sum < 0.0) {
           vn.push_back(sum);
-        else if (sum > 0.0)
+        } else if (sum > 0.0) {
           vp.push_back(sum);
-        if (error != 0.0)
+        }
+        if (error != 0.0) {
           e.push_back(error);
+        }
       }
     }
 
     // Put the error terms back in the vp and vn arrays.
     for (const auto i : e) {
-      if (i < 0.0)
+      if (i < 0.0) {
         vn.push_back(i);
-      else if (i > 0.0)
+      } else if (i > 0.0) {
         vp.push_back(i);
+      }
     }
     e.clear();
 
