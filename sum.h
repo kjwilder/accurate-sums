@@ -14,7 +14,7 @@ using std::vector;
 
 template <class T>
 T condensed_summation(const vector<T>& v) {
-  T a, b, sum = 0.0, error = 0.0;
+  T a, b, sum = 0, error = 0;
   for (const auto i : v) {
     a = sum;
     b = i + error;
@@ -47,9 +47,9 @@ T modified_deflation(const vector<T>& v) {
 
   // Initialize vectors of negative and positive elements of v
   for (const auto i : v) {
-    if (i < 0.0) {
+    if (i < 0) {
       vn.push_back(i);
-    } else if (i > 0.0) {
+    } else if (i > 0) {
       vp.push_back(i);
     }
   }
@@ -76,12 +76,12 @@ T modified_deflation(const vector<T>& v) {
         vn.push_back(tmp2);
         vn.push_back(tmp1);
       } else {
-        if (sum < 0.0) {
+        if (sum < 0) {
           vn.push_back(sum);
-        } else if (sum > 0.0) {
+        } else if (sum > 0) {
           vp.push_back(sum);
         }
-        if (error != 0.0) {
+        if (error != 0) {
           e.push_back(error);
         }
       }
@@ -89,9 +89,9 @@ T modified_deflation(const vector<T>& v) {
 
     // Put the error terms back in the vp and vn arrays.
     for (const auto i : e) {
-      if (i < 0.0) {
+      if (i < 0) {
         vn.push_back(i);
-      } else if (i > 0.0) {
+      } else if (i > 0) {
         vp.push_back(i);
       }
     }
