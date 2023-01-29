@@ -1,11 +1,11 @@
 name: tests
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   tests:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: run tests
-        run: bazelisk test :all
+        run: bazel test :all
