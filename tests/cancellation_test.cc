@@ -31,3 +31,15 @@ TEST(Cancellation, ModifiedDeflation) {
   auto res = modified_deflation(v);
   ASSERT_EQ(res, v.size() - 2);  // Correct
 }
+
+TEST(Cancellation, ModifiedDeflationHandlesBalancedZeros) {
+  vector<double> v = {1, -1, 1, -1};
+  auto res = modified_deflation(v);
+  ASSERT_EQ(res, 0.0);
+}
+
+TEST(Cancellation, ModifiedDeflationHandlesImbalancedSigns) {
+  vector<double> v = {2, 2, -3};
+  auto res = modified_deflation(v);
+  ASSERT_DOUBLE_EQ(res, 1.0);
+}

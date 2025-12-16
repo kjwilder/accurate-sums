@@ -100,7 +100,11 @@ T modified_deflation(const vector<T>& v) {
     // Check that the sums in vp and vn are well-condtioned.
     sp = condensed_summation(vp);
     sn = condensed_summation(vn);
-    well_conditioned = (fabs((sp + sn) / (sp - sn)) == 1.0);
+    if (sp - sn == 0.0) {
+      well_conditioned = true;
+    } else {
+      well_conditioned = (fabs((sp + sn) / (sp - sn)) == 1.0);
+    }
   }
 
   vector<T> vnew;
