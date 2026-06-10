@@ -30,8 +30,10 @@ T condensed_summation(const vector<T>& v) {
 // to do better without increasing the precision of the variables.  The
 // portion of the algorithm that handles potentially infinite loops has
 // been modified as the original version did not always work in my tests.
-// I believe the failures were due to errors in g++ optimizations and
-// also believe that my code still has an error.
+// The paper's reduction algorithm requires arithmetic that rounds to
+// double at every step; it fails under x87 excess precision (e.g. 32-bit
+// g++ default), where its loop overshoots and the split makes no progress.
+// The halving used here is exact (Sterbenz) and always terminates.
 
 template <class T>
 T modified_deflation(const vector<T>& v) {
@@ -62,7 +64,10 @@ T modified_deflation(const vector<T>& v) {
       a = vp.back(); vp.pop_back();
       b = vn.back(); vn.pop_back();
       sum = a + b;
-      error = (a - sum) + b;
+      // The compensated error is exact only when computed relative to the
+      // larger operand.  Since a > 0 > b, the sign of sum tells us which
+      // operand dominates.
+      error = (sum < 0) ? (b - sum) + a : (a - sum) + b;
       if (sum == a) {  // |a| >> |b|
         T tmp1 = a / 2.0;
         T tmp2 = a - tmp1;
