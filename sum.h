@@ -5,9 +5,9 @@
 #include <cmath>
 #include <vector>
 
-// Both algorithms below rely on compensated arithmetic, which is only
-// correct when every floating-point operation rounds to the operand type.
-// Reject builds where the compiler is allowed to break that assumption.
+// The algorithms require IEEE-conformant compensated arithmetic in which
+// floating-point operation rounds to the operand type.
+// Reject known builds that break the assumption.
 #ifdef __FAST_MATH__
 #error "sum.h: compensated summation is incorrect under -ffast-math/-Ofast"
 #endif
@@ -37,14 +37,7 @@ T condensed_summation(const vector<T>& v) {
 
 //========================================================================
 // The modified deflation algorithm of Anderson.  It is reasonably fast
-// and should give the correct result when possible. It is difficult
-// to do better without increasing the precision of the variables.  The
-// portion of the algorithm that handles potentially infinite loops has
-// been modified as the original version did not always work in my tests.
-// The paper's reduction algorithm requires arithmetic that rounds to
-// double at every step; it fails under x87 excess precision (e.g. 32-bit
-// g++ default), where its loop overshoots and the split makes no progress.
-// The halving used here is exact (Sterbenz) and always terminates.
+// and should give the correct result when possible.
 
 template <class T>
 T modified_deflation(const vector<T>& v) {
