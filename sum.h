@@ -1,8 +1,19 @@
 #ifndef SUM_H_
 #define SUM_H_
 
+#include <cfloat>
 #include <cmath>
 #include <vector>
+
+// Both algorithms below rely on compensated arithmetic, which is only
+// correct when every floating-point operation rounds to the operand type.
+// Reject builds where the compiler is allowed to break that assumption.
+#ifdef __FAST_MATH__
+#error "sum.h: compensated summation is incorrect under -ffast-math/-Ofast"
+#endif
+#if FLT_EVAL_METHOD != 0
+#error "sum.h: requires arithmetic rounded to operand type (FLT_EVAL_METHOD == 0); on 32-bit x86 build with -msse2 -mfpmath=sse"
+#endif
 
 using std::vector;
 
