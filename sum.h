@@ -1,8 +1,19 @@
 #ifndef SUM_H_
 #define SUM_H_
 
+#include <cfloat>
 #include <cmath>
 #include <vector>
+
+// The algorithms require IEEE-conformant compensated arithmetic in which
+// floating-point operation rounds to the operand type.
+// Reject known builds that break the assumption.
+#ifdef __FAST_MATH__
+#error "sum.h: compensated summation is incorrect under -ffast-math/-Ofast"
+#endif
+#if FLT_EVAL_METHOD != 0
+#error "sum.h: requires arithmetic rounded to operand type (FLT_EVAL_METHOD == 0); on 32-bit x86 build with -msse2 -mfpmath=sse"
+#endif
 
 using std::vector;
 
@@ -26,12 +37,7 @@ T condensed_summation(const vector<T>& v) {
 
 //========================================================================
 // The modified deflation algorithm of Anderson.  It is reasonably fast
-// and should give the correct result when possible. It is difficult
-// to do better without increasing the precision of the variables.  The
-// portion of the algorithm that handles potentially infinite loops has
-// been modified as the original version did not always work in my tests.
-// I believe the failures were due to errors in g++ optimizations and
-// also believe that my code still has an error.
+// and should give the correct result when possible.
 
 template <class T>
 T modified_deflation(const vector<T>& v) {
@@ -62,7 +68,10 @@ T modified_deflation(const vector<T>& v) {
       a = vp.back(); vp.pop_back();
       b = vn.back(); vn.pop_back();
       sum = a + b;
-      error = (a - sum) + b;
+      // The compensated error is exact only when computed relative to the
+      // larger operand.  Since a > 0 > b, the sign of sum tells us which
+      // operand dominates.
+      error = (sum < 0) ? (b - sum) + a : (a - sum) + b;
       if (sum == a) {  // |a| >> |b|
         T tmp1 = a / 2.0;
         T tmp2 = a - tmp1;

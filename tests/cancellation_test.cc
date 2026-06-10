@@ -43,3 +43,13 @@ TEST(Cancellation, ModifiedDeflationHandlesImbalancedSigns) {
   auto res = modified_deflation(v);
   ASSERT_DOUBLE_EQ(res, 1.0);
 }
+
+TEST(Cancellation, ModifiedDeflationHandlesLargerNegativeOperand) {
+  // Deflating a = 2^53 - 1 against b = -2^54 exercises the |b| > |a| case,
+  // where the compensated error must be computed as (b - sum) + a.  Using
+  // (a - sum) + b silently loses the -1 and yields 0.
+  vector<double> v = {18014398509481984.0 /* 2^54 */,
+                      -18014398509481984.0 /* -2^54 */, -1.0};
+  auto res = modified_deflation(v);
+  ASSERT_EQ(res, -1.0);
+}
